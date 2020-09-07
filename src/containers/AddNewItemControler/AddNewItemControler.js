@@ -166,7 +166,7 @@ export default function TransitionsModal(props) {
 							value={costState.cost}
 							defaultValue=""
 							type="number"
-							onChange={(event) => dispatch({ type: 'ON_CHANGE_COST', value: event.target.value })}
+							onChange={(event) => dispatch({ type: 'ON_CHANGE_COST', value: Number(event.target.value) })}
 						/>
 						<form className={classes.container} noValidate>
 							<TextField // DATE
