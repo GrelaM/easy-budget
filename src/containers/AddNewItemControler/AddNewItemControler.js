@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -67,21 +67,13 @@ const initialCostState = {
 	cat: '',
 	item: '',
 	cost: '',
-	date: ''
+	date: '',
+	modalVisible: false
 };
 
 export default function TransitionsModal(props) {
 	const classes = useStyles();
-	const [ open, setOpen ] = useState(false);
-
-	const handleOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
+	
 	function reducer(state, action) {
 		switch (action.type) {
 			case 'CATEGORY_SET':
@@ -92,14 +84,12 @@ export default function TransitionsModal(props) {
 				return { ...state, cost: action.value };
 			case 'ON_CHANGE_DATE':
 				return { ...state, date: action.value };
-			case 'ADD':
-				handleClose();
-				return { ...state, cat: '', item: '', cost: '', date: '' };
 			case 'RESET':
 				return { ...state, cat: '', item: '', cost: '', date: '' };
 			case 'CLOSE':
-				handleClose();
-				return { ...state, cat: '', item: '', cost: '', date: '' };
+				return { ...state, cat: '', item: '', cost: '', date: '', modalVisible: false};
+			case 'OPEN':
+				return {...state, modalVisible: true}
 			default:
 				console.log('It should never get here!');
 		}
@@ -109,7 +99,7 @@ export default function TransitionsModal(props) {
 
 	return (
 		<div>
-			<Tooltip title="Add" aria-label="add" onClick={handleOpen}>
+			<Tooltip title="Add" aria-label="add" onClick={() => dispatch({ type: 'OPEN' })}>
 				<Fab className={classes.absolute}>
 					<AddIcon />
 				</Fab>
@@ -118,15 +108,15 @@ export default function TransitionsModal(props) {
 				aria-labelledby="transition-modal-title"
 				aria-describedby="transition-modal-description"
 				className={classes.modal}
-				open={open}
-				onClose={handleClose}
+				open={costState.modalVisible}
+				onClose={() => dispatch({ type: 'CLOSE' })}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500
 				}}
 			>
-				<Fade in={open}>
+				<Fade in={costState.modalVisible}>
 					<div className={classes.paper}>
 						<h2 id="transition-modal-title">Add new item</h2>
 						<FormControl required className={classes.formControl}>
@@ -166,7 +156,8 @@ export default function TransitionsModal(props) {
 							value={costState.cost}
 							defaultValue=""
 							type="number"
-							onChange={(event) => dispatch({ type: 'ON_CHANGE_COST', value: Number(event.target.value) })}
+							onChange={(event) =>
+								dispatch({ type: 'ON_CHANGE_COST', value: Number(event.target.value) })}
 						/>
 						<form className={classes.container} noValidate>
 							<TextField // DATE
@@ -197,16 +188,12 @@ export default function TransitionsModal(props) {
 										)
 									}
 									className={classes.modalButton}
-									onClick={() =>
+									onClick={() => {
+										props.update(costState.cat, costState.item, costState.cost, costState.date);
 										dispatch({
-											type: 'ADD',
-											action: props.update(
-												costState.cat,
-												costState.item,
-												costState.cost,
-												costState.date
-											)
-										})}
+											type: 'CLOSE'
+										});
+									}}
 								>
 									Add
 								</Button>

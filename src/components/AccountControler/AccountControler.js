@@ -73,51 +73,53 @@ const useStyles = makeStyles((theme) => ({
 const AccountControler = (props) => {
 	const classes = useStyles();
 
-	const arr = props.history.accountHistory !== '' ? props.history.accountHistory.sort((a, b) => new Date(b.date) - new Date(a.date)) : ''; // 1. Make an Order in Dates
+	const sortedHistory =
+		props.history.accountHistory !== ''
+			? props.history.accountHistory.sort((a, b) => new Date(b.date) - new Date(a.date))
+			: ''; // 1. Make an Order in Dates
 	let historyCards;
 	if (props.history.accountHistory !== '') {
-		const dateArr = arr.map((el) => el.date); // 2. Make an Order in Dates
-		const array = dateArr.filter((a, b) => dateArr.indexOf(a) === b); // 3. Make an Order in Dates
+		const itemDates = sortedHistory.map((el) => el.date); // 2. Make an Order in Dates
+		const uniqueItemDates = itemDates.filter((a, b) => itemDates.indexOf(a) === b); // 3. Make an Order in Dates
 		historyCards = (
 			<div>
-				{array.map((elem, id) => {
+				{uniqueItemDates.map((elem, id) => {
+					const items = sortedHistory.filter((el) => el.date === elem);
 					return (
 						<div key={id}>
 							<div className={classes.date}>{elem}</div>
 							<div>
-								{arr.map((el, id) => { 
-									if (el.date === elem) {
-										return (
-											<Paper className={classes.cardBox} key={id}>
-												<Icon className={classes.cardIconBox}>
-													{el.category === 'income' ? (
-														<Plus className={classes.cardIcon} />
+								{items.map((el, id) => {
+									return (
+										<Paper className={classes.cardBox} key={id}>
+											<Icon className={classes.cardIconBox}>
+												{el.category === 'income' ? (
+													<Plus className={classes.cardIcon} />
+												) : (
+													<Cost className={classes.cardIcon} />
+												)}
+											</Icon>
+											<div className={classes.cardContent}>
+												<Typography className={classes.cardContentFirst} gutterBottom>
+													{el.category}
+												</Typography>
+												<Typography className={classes.cardContentSecond} gutterBottom>
+													{el.item}
+												</Typography>
+											</div>
+											<div
+												className={
+													el.category === 'income' ? (
+														classes.cardContentAmountInc
 													) : (
-														<Cost className={classes.cardIcon} />
-													)}
-												</Icon>
-												<div className={classes.cardContent}>
-													<Typography className={classes.cardContentFirst} gutterBottom>
-														{el.category}
-													</Typography>
-													<Typography className={classes.cardContentSecond} gutterBottom>
-														{el.item}
-													</Typography>
-												</div>
-												<div
-													className={
-														el.category === 'income' ? (
-															classes.cardContentAmountInc
-														) : (
-															classes.cardContentAmountExp
-														)
-													}
-												>
-													{el.amount} {props.history.accountCurrency}
-												</div>
-											</Paper>
-										);
-									} else { return null}
+														classes.cardContentAmountExp
+													)
+												}
+											>
+												{el.amount} {props.history.accountCurrency}
+											</div>
+										</Paper>
+									);
 								})}
 							</div>
 						</div>

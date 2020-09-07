@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 import Auxiliary from '../../hoc/Auxiliary';
 import AccountBalance from '../../components/AccountBalance/AccountBalance';
@@ -19,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
 		letterSpacing: '1px',
 		color: theme.palette.text.mainLight,
 		fontWeight: 600
+	},
+	alert: {
+		marginBottom: theme.margin.middle
 	}
 }));
 const initialState = {
@@ -57,6 +61,10 @@ const CostBuilder = () => {
 			<Grid item xs={12} className={classes.header}>
 				Recent transactions
 			</Grid>
+			{state.accountHistory.length === 0 ? <Alert className={classes.alert} severity="info">
+				<AlertTitle>Info</AlertTitle>
+				No transaction have been recorded — <strong>add next transaction!</strong>
+			</Alert> : ''}
 			<AccountControler history={state} />
 			<AddNewItemControler update={updateAccountHistory} />
 		</Auxiliary>
