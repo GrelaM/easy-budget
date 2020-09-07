@@ -39,12 +39,12 @@ const useStyles = makeStyles((theme) => ({
 		fontFamily: 'inherit'
 	},
 	cardContentFirst: {
-		fontSize: '1em',
+		fontSize: '1.125em',
 		fontWeight: 700
 	},
 	cardContentSecond: {
-		fontSize: '0.8em',
-		fontWeight: 100
+		fontSize: '0.9em',
+		fontWeight: 700
 	},
 	cardContentAmountInc: {
 		minWidth: '30%',

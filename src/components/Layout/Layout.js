@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	contantSpace: {
 		marginTop: theme.margin.large,
-		margin: '5px'
+		margin: theme.margin.small,
+		paddingBottom: '30px'
 	}
 }));
 

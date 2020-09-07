@@ -73,7 +73,7 @@ const initialCostState = {
 
 export default function TransitionsModal(props) {
 	const classes = useStyles();
-	
+
 	function reducer(state, action) {
 		switch (action.type) {
 			case 'CATEGORY_SET':
@@ -86,10 +86,10 @@ export default function TransitionsModal(props) {
 				return { ...state, date: action.value };
 			case 'RESET':
 				return { ...state, cat: '', item: '', cost: '', date: '' };
-			case 'CLOSE':
-				return { ...state, cat: '', item: '', cost: '', date: '', modalVisible: false};
 			case 'OPEN':
-				return {...state, modalVisible: true}
+				return { ...state, modalVisible: true };
+			case 'CLOSE':
+				return { ...state, cat: '', item: '', cost: '', date: '', modalVisible: false };
 			default:
 				console.log('It should never get here!');
 		}
@@ -144,7 +144,7 @@ export default function TransitionsModal(props) {
 							id="standard-required"
 							label="Items"
 							value={costState.item}
-							defaultValue=""
+							
 							type="text"
 							onChange={(event) => dispatch({ type: 'ON_CHANGE_ITEM', value: event.target.value })}
 						/>
@@ -154,7 +154,7 @@ export default function TransitionsModal(props) {
 							id="standard-required"
 							label="Costs"
 							value={costState.cost}
-							defaultValue=""
+							
 							type="number"
 							onChange={(event) =>
 								dispatch({ type: 'ON_CHANGE_COST', value: Number(event.target.value) })}
@@ -166,7 +166,7 @@ export default function TransitionsModal(props) {
 								id="date"
 								label="Date"
 								value={costState.date}
-								defaultValue=""
+								
 								type="date"
 								onChange={(event) => dispatch({ type: 'ON_CHANGE_DATE', value: event.target.value })}
 								InputLabelProps={{
