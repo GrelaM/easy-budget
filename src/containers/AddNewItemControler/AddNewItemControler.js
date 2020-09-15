@@ -144,7 +144,6 @@ export default function TransitionsModal(props) {
 							id="standard-required"
 							label="Items"
 							value={costState.item}
-							
 							type="text"
 							onChange={(event) => dispatch({ type: 'ON_CHANGE_ITEM', value: event.target.value })}
 						/>
@@ -154,7 +153,6 @@ export default function TransitionsModal(props) {
 							id="standard-required"
 							label="Costs"
 							value={costState.cost}
-							
 							type="number"
 							onChange={(event) =>
 								dispatch({ type: 'ON_CHANGE_COST', value: Number(event.target.value) })}
@@ -166,7 +164,6 @@ export default function TransitionsModal(props) {
 								id="date"
 								label="Date"
 								value={costState.date}
-								
 								type="date"
 								onChange={(event) => dispatch({ type: 'ON_CHANGE_DATE', value: event.target.value })}
 								InputLabelProps={{
@@ -197,7 +194,20 @@ export default function TransitionsModal(props) {
 								>
 									Add
 								</Button>
-								<Button className={classes.modalButton} onClick={() => dispatch({ type: 'RESET' })}>
+								<Button
+									disabled={
+										costState.cat === '' &&
+										costState.item === '' &&
+										costState.cost === '' &&
+										costState.date === '' ? (
+											true
+										) : (
+											false
+										)
+									}
+									className={classes.modalButton}
+									onClick={() => dispatch({ type: 'RESET' })}
+								>
 									Reset
 								</Button>
 								<Button className={classes.modalButton} onClick={() => dispatch({ type: 'CLOSE' })}>

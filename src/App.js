@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Auxiliary from './hoc/Auxiliary';
-import Layout from './components/Layout/Layout';
+import Layout from './containers/Layout/Layout';
 import CostBuilder from './containers/CostBuilder/CostBuilder';
 
 import { createMuiTheme, ThemeProvider, MuiThemeProvider } from '@material-ui/core/styles';

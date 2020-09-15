@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
 	paperOne: {
-		padding: theme.spacing(2),
+		padding: theme.spacing(3),
 		textAlign: 'left',
 		color: (props) =>
 			props.balanceBackground >= 0 ? theme.palette.text.mainLight : theme.palette.text.mainContrast,
@@ -44,7 +44,7 @@ const AccountBalance = (props) => {
 				<Paper className={classes.paperOne}>
 					Balance:
 					<div className={classes.paperAdditional}>
-						{balance >= 0 ? `+${balance}` : balance}
+						{balance >= 0 ? `+${balance.toFixed(2)}` : balance.toFixed(2)}
 						<div className={classes.paper}>{props.account.accountCurrency}</div>
 					</div>
 				</Paper>

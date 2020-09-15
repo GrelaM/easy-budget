@@ -28,15 +28,12 @@ const useStyles = makeStyles((theme) => ({
 const initialState = {
 	accountCurrency: 'PLN',
 	accountHistory: [
-		{ id: 1, category: 'shopping', item: 'groceries', amount: 100, date: '2020-05-15' },
-		{ id: 2, category: 'shopping', item: 'rent', amount: 500, date: '2020-04-15' },
-		{ id: 3, category: 'income', item: 'LTD agency', amount: 1500, date: '2020-06-03' },
-		{ id: 4, category: 'shopping', item: 'groceries', amount: 157, date: '2020-08-15' },
-		{ id: 5, category: 'shopping', item: 'rent', amount: 500, date: '2020-12-15' },
-		{ id: 6, category: 'income', item: 'LTD agency', amount: 1000, date: '2020-01-03' },
-		{ id: 7, category: 'shopping', item: 'rent', amount: 50, date: '2020-12-15' },
-		{ id: 8, category: 'shopping', item: 'rent', amount: 97, date: '2020-02-03' },
-		{ id: 9, category: 'income', item: 'aditional job', amount: 750, date: '2020-12-20' }
+		{ id: 0, category: 'shopping', item: 'groceries', amount: 100, date: '2020-05-15', deleteBtn: false },
+		{ id: 1, category: 'shopping', item: 'rent', amount: 500, date: '2020-04-15', deleteBtn: false },
+		{ id: 2, category: 'income', item: 'LTD agency', amount: 1500, date: '2020-06-03', deleteBtn: false },
+		{ id: 3, category: 'shopping', item: 'groceries', amount: 157, date: '2020-08-15', deleteBtn: false },
+		{ id: 4, category: 'bills', item: 'water', amount: 100, date: '2020-01-03', deleteBtn: false },
+		{ id: 5, category: 'bills', item: 'energy', amount: 199, date: '2020-10-10', deleteBtn: false },
 	]
 };
 
@@ -50,9 +47,28 @@ const CostBuilder = () => {
 			...state,
 			accountHistory: [
 				...state.accountHistory,
-				{ id: index + 1, category: cat, item: itemPassed, amount: cost, date: datePassed }
+				{ id: index, category: cat, item: itemPassed, amount: cost, date: datePassed, deleteBtn: false }
 			]
 		}));
+	};
+
+
+	function findItem(passedId) {
+		return state.accountHistory.find(el => el.id === passedId)
+	}
+
+	const showDeleteBtn = (itemId) => {
+		const currentElement = findItem(itemId)
+		setState(
+			{ ...state }, currentElement.deleteBtn = !currentElement.deleteBtn
+		);
+	};
+
+	const deleteItemAccountHistory = (itemId) => {
+		const elCurrentPosition = state.accountHistory.indexOf(findItem(itemId))
+		setState(
+			{ ...state}, state.accountHistory.splice(elCurrentPosition, 1)
+		)
 	};
 
 	return (
@@ -61,11 +77,15 @@ const CostBuilder = () => {
 			<Grid item xs={12} className={classes.header}>
 				Recent transactions
 			</Grid>
-			{state.accountHistory.length === 0 ? <Alert className={classes.alert} severity="info">
-				<AlertTitle>Info</AlertTitle>
-				No transaction have been recorded — <strong>add next transaction!</strong>
-			</Alert> : ''}
-			<AccountControler history={state} />
+			{state.accountHistory.length === 0 ? (
+				<Alert className={classes.alert} severity="info">
+					<AlertTitle>Info</AlertTitle>
+					No transaction have been recorded — <strong>add next transaction!</strong>
+				</Alert>
+			) : (
+				''
+			)}
+			<AccountControler history={state} clickedItem={showDeleteBtn} deleteItem={deleteItemAccountHistory} />
 			<AddNewItemControler update={updateAccountHistory} />
 		</Auxiliary>
 	);

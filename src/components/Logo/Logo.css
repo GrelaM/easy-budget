@@ -1,0 +1,38 @@
+.logo {
+    min-width: 200px;
+    min-height: inherit;
+}
+
+.logo_background {
+    position: absolute;
+    width: 150px;
+    height: 35px;
+    z-index: 100;
+    top: 6px;
+    border-bottom: 10px solid rgba(255,255,255,0.2);
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+}
+
+.logo_background_dark {
+    height: 35px;
+    border-bottom: 10px solid rgba(255, 255, 255, 0.7);
+}
+
+.logo_title {
+    font-family: 'Waiting for the Sunrise';
+    min-width: inherit;
+    height: 45px;
+    text-align: center;
+    letter-spacing: 1px;
+    position: absolute;
+    z-index: 900;
+    top: 6px;
+    border-bottom: 1px solid white;
+}
+
+.logo_title_dark {
+    height: 45px;
+    border-bottom: 1px solid rgba(0,0,0,0.6);
+}
+
